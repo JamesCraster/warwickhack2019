@@ -8,6 +8,8 @@ The user sends a message, which is encoded in ASCII, over a custom serial protoc
 
 The interface is built in React using Semantic UI. The encoder and decoder use the webkit AudioContext interface.
 
+Check it out [here!](https://jamescraster.github.io/warwickhack2019/)
+
 # Team
 
 - [Edwin Clarke](https://github.com/Sporech): Audio encoder
