@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Input,
-  Segment,
-  Form,
-  List,
-} from "semantic-ui-react";
+import { Input, Segment, Form, List } from "semantic-ui-react";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -28,13 +23,24 @@ class ChatBox extends Component {
     let messages = this.state.messages;
     messages.push(
       <List.Item key={this.state.key}>
-        <List.Icon name="user" />
+        <List.Icon name="volume up" />
         <List.Content>{this.state.inputValue}</List.Content>
       </List.Item>,
     );
     this.props.sendToEncoder(this.state.inputValue);
     this.setState({ key: this.state.key + 1 });
     this.setState({ inputValue: "" });
+  };
+
+  receiveDecodeMessage = message => {
+    let messages = this.state.messages;
+    messages.push(
+      <List.Item key={this.state.key}>
+        <List.Icon name="microphone" />
+        <List.Content>{message}</List.Content>
+      </List.Item>,
+    );
+    this.setState({ key: this.state.key + 1 });
   };
 
   componentDidUpdate() {
