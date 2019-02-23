@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Input, Header, Menu } from "semantic-ui-react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Input, Header, Menu, Segment } from "semantic-ui-react";
+import ChatBox from "./ChatBox";
 
 class App extends Component {
   render() {
@@ -11,7 +10,7 @@ class App extends Component {
           <Menu.Item header>Talking-2.0</Menu.Item>
         </Menu>
         <Header as="h1">Talking-2.0</Header>
-        <Input action="Submit" placeholder="Enter text..." />
+        <ChatBox />
       </div>
     );
   }
