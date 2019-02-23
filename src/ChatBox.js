@@ -15,7 +15,9 @@ class ChatBox extends Component {
     this.state = {
       key: 1,
       inputValue: "",
-      messages: [<List.Item key={0}>Hello</List.Item>],
+      messages: [
+        <List.Item key={0}>Enter text and everyone can hear it!</List.Item>,
+      ],
     };
   }
 
@@ -29,7 +31,10 @@ class ChatBox extends Component {
   onSubmit = () => {
     let messages = this.state.messages;
     messages.push(
-      <List.Item key={this.state.key}>{this.state.inputValue}</List.Item>,
+      <List.Item key={this.state.key}>
+        <List.Icon name="user" />
+        <List.Content>{this.state.inputValue}</List.Content>
+      </List.Item>,
     );
     this.setState({ key: this.state.key + 1 });
     this.setState({ inputValue: "" });
