@@ -13,7 +13,7 @@ class App extends Component {
           </Menu.Item>
           <Menu.Item header>Talking 2.0</Menu.Item>
         </Menu>
-        <Header as="h1">Talking-2.0</Header>
+        <Header as="h1">Talking 2.0</Header>
         <p style={{ fontStyle: "italic" }}>Even better than talking</p>
         <ChatBox sendToEncoder={send} />
       </div>

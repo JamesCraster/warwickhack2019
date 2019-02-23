@@ -3,9 +3,11 @@
 
 Send data using sound!
 
+The interface is built in React using Semantics UI. The encoder and decoder use the webkit AudioContext interface.
+
 # Team
 
 - [Sporech](https://github.com/Sporech): Audio encoder
 - [James Craster](https://github.com/JamesCraster): Interface with React and Semantics UI
 - [Daniel Spencer](https://github.com/danielfspencer): Audio decoder
-- [William Russell](https://github.com/wrussell1999): Getting everything to work with each other 
+- [William Russell](https://github.com/wrussell1999):Getting everything to work with each other.
