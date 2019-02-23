@@ -8,7 +8,9 @@ class ChatBox extends Component {
       key: 1,
       inputValue: "",
       messages: [
-        <List.Item key={0}>Enter text below and everyone can hear it!</List.Item>,
+        <List.Item key={0}>
+          Enter text below and everyone can hear it!
+        </List.Item>,
       ],
     };
   }
@@ -63,7 +65,7 @@ class ChatBox extends Component {
         >
           <List style={{ textAlign: "left" }}>{this.state.messages}</List>
         </Segment>
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={this.onSubmit} style={{ paddingRight: "50px" }}>
           <Input
             value={this.state.inputValue}
             action="Submit"
