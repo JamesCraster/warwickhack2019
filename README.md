@@ -14,4 +14,11 @@ The interface is built in React using Semantics UI. The encoder and decoder use 
 - [Daniel Spencer](https://github.com/danielfspencer): Audio decoder
 - [William Russell](https://github.com/wrussell1999): Getting everything to work with each other.
 
+
+
+# Encoder
 ![Screenshot](screenshot.png)
+
+
+# Decoder
+![Screenshot](decoder-screenshot.png)
