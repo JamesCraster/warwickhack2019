@@ -42,13 +42,15 @@ function decode_packet(data) {
     }
   }
 
-  // if (value % 2 != parity) {
-  //   console.log("parity check failed! binning packet");
-  // } else if (value > 126 | value < 32) {
-  //   console.log("not printable ASCII, binning packet");
-  // } else {
+  if (value % 2 != parity) {
+    // console.log("parity check failed! binning packet");
+    callback("_");
+  } else if (value > 126 | value < 32) {
+    // console.log("not printable ASCII, binning packet");
+    callback("_");
+  } else {
       callback(value);
-  // }
+  }
 }
 
 function check_for_start_bit() {
@@ -195,9 +197,6 @@ function draw() {
 
   canvasCtx.lineTo(canvas.width, canvas.height / 2);
   canvasCtx.stroke();
-
-  high_output.innerText = get_frequency_amplitude(high_freq_centre_bin, bin_averaging_width);
-  low_output.innerText = get_frequency_amplitude(low_freq_centre_bin, bin_averaging_width);
 }
 
 function sample_bit() {
