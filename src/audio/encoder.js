@@ -31,7 +31,7 @@ function send(str) {
     (packet_delay + (word_length + 2) * bit_pulse_delay) * str.length,
   );
   setTimeout(() => {
-    //oscillator.disconnect();
+    oscillator.disconnect();
   }, (packet_delay + (word_length + 2) * bit_pulse_delay) * str.length);
 }
 
