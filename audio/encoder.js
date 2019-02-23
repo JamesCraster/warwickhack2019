@@ -11,31 +11,30 @@ var oscillator = audioContext.createOscillator();
 function generate_packet(value) {
   //Convert to Binary Array
   var bin = [];
-  for (var i = 0; i < 8; i++)
-  {
-    b[i] = (value >> i) & 1;
+  for (var i = 0; i < 8; i++) {
+    bin[i] = (value >> i) & 1;
   }
 
   //Transmit header
   generate_bit(1);
 
-setTimeout(function(){
-  //Transmit payload
-  for (var i = 0; i < 8; i++) {
-    setTimeout(function() {
-      generate_bit(bin[i]);
-    },i*bit_pulse_delay);
-  }
-  stop_oscillator();
-  },bit_pulse_delay);
+  setTimeout(function () {
+    //Transmit payload
+    for (var i = 0; i < 8; i++) {
+      setTimeout(function () {
+        generate_bit(bin[i]);
+      }, i * bit_pulse_delay);
+    }
+    stop_oscillator();
+  }, bit_pulse_delay);
 }
 
 function generate_bit(bit) {
-  generate_sine(value == 1 ? freq_high : freq_low);
+  generate_sine(bit == 1 ? freq_high : freq_low);
 }
 
 function generate_sine(freq) {
-  oscillator.type="sine";
+  oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
   oscillator.connect(audioContext.destination);
   oscillator.start();
