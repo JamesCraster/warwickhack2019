@@ -44,10 +44,10 @@ function decode_packet(data) {
 
   if (value % 2 != parity) {
     // console.log("parity check failed! binning packet");
-    callback("_");
+    callback(95);
   } else if (value > 126 | value < 32) {
     // console.log("not printable ASCII, binning packet");
-    callback("_");
+    callback(95);
   } else {
       callback(value);
   }
