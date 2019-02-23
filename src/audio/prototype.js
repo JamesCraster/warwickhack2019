@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", init);
 
-const high_freq_centre_bin = 35;
-const low_freq_centre_bin = 23;
-const bin_averaging_width = 2;
+const high_freq_centre_bin = 220;
+const low_freq_centre_bin = 232;
+const bin_averaging_width = 1;
 
 const packet_delay = 1000; //ms
-const bit_pulse_delay = 200; //ms
+const bit_pulse_delay = 120; //ms
 
-const n_way_majority = 1;
-const payload_length = 8 * n_way_majority;
+const n_way_majority = 3;
+const payload_length = 9 * n_way_majority;
 
 var packet_data = [];
 var remaining_bits = 0;
@@ -18,19 +18,23 @@ function callback(value) {
 }
 
 function decode_packet(data) {
-  console.log("raw packet: " + data);
+  // console.log("raw packet: " + data);
 
   var decoded = [];
 
   for (var i = 0; i < payload_length; i += n_way_majority) {
     var votes = data.slice(i, i + n_way_majority);
     decoded.push(decode_n_way_majority(votes, n_way_majority));
-    console.log("find majority: " + votes + " = " + decoded[decoded.length - 1]);
+    // console.log("find majority: " + votes + " = " + decoded[decoded.length - 1]);
   }
 
-  console.log("decoded packet:" + decoded);
 
+  var parity = decoded[decoded.length - 1];
+  decoded = decoded.slice(0, decoded.length - 1)
   var value = 0;
+
+  console.log("decoded payload: " + decoded);
+  console.log("parity bit: " + parity);
 
   for (var i = decoded.length; i > 0; i--) {
     if (decoded[decoded.length - i]) {
@@ -38,19 +42,62 @@ function decode_packet(data) {
     }
   }
 
-  callback(value);
-}
-
-function start_polling() {
-  start_bit_checker = setInterval(check_for_start_bit, 10);
+  // if (value % 2 != parity) {
+  //   console.log("parity check failed! binning packet");
+  // } else if (value > 126 | value < 32) {
+  //   console.log("not printable ASCII, binning packet");
+  // } else {
+      callback(value);
+  // }
 }
 
 function check_for_start_bit() {
-  analyser.getByteFrequencyData(fft);
-  if (is_high(200)) {                   // we have found the rising edge
+  if (is_high(160)) {                   // we have found the rising edge
+    console.log("detected high tone");
+    clearTimeout(canceler);
     clearInterval(start_bit_checker);    // stop checking for it
     setTimeout(start_sampling, bit_pulse_delay * 1.5);  // start sampling the packet
   }
+}
+
+function start_polling() {
+  start_low_checker();
+  setTimeout(wait_for_low_length,100);
+}
+
+function wait_for_low_length() {
+  sample_low_value();
+  clearInterval(low_sampler);
+  var sum = 0;
+  for (var i = 0; i < low_sample_buffer.length; i++) {
+    sum += low_sample_buffer[i];
+  }
+
+  var average = sum / low_sample_buffer.length;
+  if (average > 140) {
+    console.log("steady low tone detected (samples: " + low_sample_buffer.length + ")" );
+    start_bit_checker = setInterval(check_for_start_bit, 1);
+    canceler = setTimeout(cancel_high_check, packet_delay * 1.5 );
+  } else {
+    // console.log("no low tone detected " + average);
+    start_polling();
+  }
+}
+
+function cancel_high_check() {
+  console.log("no start bit detected soon enough, resetting");
+  clearInterval(start_bit_checker);
+  start_polling();
+}
+
+function start_low_checker() {
+  low_sample_buffer = [];
+  sample_low_value();
+  low_sampler = setInterval(sample_low_value,1);
+}
+
+function sample_low_value() {
+  low_sample_buffer.push(get_frequency_amplitude(low_freq_centre_bin, bin_averaging_width));
 }
 
 function start_sampling() {
@@ -66,7 +113,8 @@ function sample() {
   } else {
     clearInterval(bit_sampler);
     decode_packet(packet_data);
-    setTimeout(start_polling, packet_delay * 0.8);
+    start_polling();
+    // setTimeout(start_polling, packet_delay * 0.8);
   }
 }
 
@@ -93,10 +141,17 @@ function init() {
   };
 
   navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(handleSuccess);
+
+  setInterval(updateFFT,1);
+
+  draw();
+}
+
+function updateFFT() {
+  analyser.getByteFrequencyData(fft);
 }
 
 function get_frequency_amplitude(bin, averaging_width) {
-  // analyser.getByteTimeDomainData(fft);
   var sum = 0;
   var samples = 0;
 
@@ -112,8 +167,6 @@ function get_frequency_amplitude(bin, averaging_width) {
 function draw() {
 
   requestAnimationFrame(draw);
-
-  analyser.getByteFrequencyData(fft);
 
   canvasCtx.fillStyle = "rgb(200, 200, 200)";
   canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
@@ -147,8 +200,6 @@ function draw() {
   low_output.innerText = get_frequency_amplitude(low_freq_centre_bin, bin_averaging_width);
 }
 
-draw();
-
 function sample_bit() {
   var high_amplitude = get_frequency_amplitude(high_freq_centre_bin, bin_averaging_width);
   var low_amplitude = get_frequency_amplitude(low_freq_centre_bin, bin_averaging_width);
@@ -159,6 +210,11 @@ function sample_bit() {
 function is_high(threshold) {
   var high_amplitude = get_frequency_amplitude(high_freq_centre_bin, bin_averaging_width);
   return high_amplitude > threshold;
+}
+
+function is_low(threshold) {
+  var low_amplitude = get_frequency_amplitude(low_freq_centre_bin, bin_averaging_width);
+  return low_amplitude > threshold;
 }
 
 function decode_n_way_majority(values, ways) {
