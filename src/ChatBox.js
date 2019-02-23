@@ -22,7 +22,6 @@ class ChatBox extends Component {
   }
 
   updateInputValue = evt => {
-    console.log(evt);
     this.setState({
       inputValue: evt.target.value,
     });
@@ -67,6 +66,7 @@ class ChatBox extends Component {
             action="Submit"
             placeholder="Enter text..."
             onChange={this.updateInputValue}
+            maxLength="25"
           />
         </Form>
       </div>
