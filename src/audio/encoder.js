@@ -12,7 +12,6 @@ var oscillator = audioContext.createOscillator();
 oscillator.start();
 
 function send(str) {
-  console.log(str)
   generate_bit(0);
   for (var i = 0; i < str.length; i++) {
     setTimeout(function() {
@@ -34,7 +33,7 @@ function generate_packet(value) {
   setTimeout(function () {
     generate_bit(0);
     setTimeout(function () {
-      //Transmit payload
+      //Transmit payload within nested timeout
       for (var i = 0; i < word_length; i++) {
         setTimeout(function () {
           generate_bit(bin[i]);
@@ -42,6 +41,11 @@ function generate_packet(value) {
       }
     }, bit_pulse_delay);
   },bit_pulse_delay);
+
+  //Set intermediate frequency to low_output
+  setTimeout(function() {
+    generate_bit(0);
+  },bit_pulse_delay*word_length+2);
 }
 
 function generate_bit(bit) {
