@@ -1,10 +1,11 @@
 var packet_delay = 1000; //ms
-var bit_pulse_delay = 500; //ms
+var bit_pulse_delay = 200; //ms
 
 const freq_high = 3000; //hz
 const freq_low = 2000; //hz
 
 var word_length = 8;
+var repetitions = 3;
 
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -20,19 +21,12 @@ function send(str) {
       //console.log(str.charCodeAt(char_index));
       generate_packet(str.charCodeAt(char_index));
       char_index++;
-    }, (packet_delay + (word_length + 2) * bit_pulse_delay) * i);
+    }, (packet_delay + (word_length * 3 + 2) * bit_pulse_delay) * i);
   }
 
-  console.log("change");
-  for (let x = 0; x < str.length; x++) {
-    console.log(packet_delay * x + bit_pulse_delay * (word_length + 2));
-  }
-  console.log(
-    (packet_delay + (word_length + 2) * bit_pulse_delay) * str.length,
-  );
   setTimeout(() => {
     oscillator.disconnect();
-  }, (packet_delay + (word_length + 2) * bit_pulse_delay) * str.length);
+  }, (packet_delay + (word_length * 3 + 2) * bit_pulse_delay) * str.length);
 }
 
 function generate_packet(value) {
@@ -43,13 +37,21 @@ function generate_packet(value) {
   }
   console.log(bin);
   var byte_index = 0;
+  bin = bin
+    .map(String)
+    .map(elem => elem.repeat(3))
+    .join("")
+    .split("")
+    .map(elem => parseInt(elem));
+
+  console.log(bin);
   //Transmit header
   generate_bit(1);
   setTimeout(function() {
     generate_bit(0);
     setTimeout(function() {
       //Transmit payload within nested timeout
-      for (var i = 0; i < word_length; i++) {
+      for (var i = 0; i < word_length * repetitions; i++) {
         setTimeout(function() {
           generate_bit(bin[byte_index++]);
           //console.log(bin[i]);
@@ -61,7 +63,7 @@ function generate_packet(value) {
   //Set intermediate frequency to low_output
   setTimeout(function() {
     generate_bit(0);
-  }, bit_pulse_delay * word_length + 2);
+  }, bit_pulse_delay * word_length * repetitions + 2);
 }
 
 function generate_bit(bit) {
