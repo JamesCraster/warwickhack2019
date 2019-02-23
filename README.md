@@ -3,7 +3,6 @@
 
 # Team
 
-- [Xavier Blake](https://github.com/XavierBlake)
 - [Sporech](https://github.com/Sporech)
 - [James Craster](https://github.com/JamesCraster)
 - [Daniel Spencer](https://github.com/danielfspencer)
