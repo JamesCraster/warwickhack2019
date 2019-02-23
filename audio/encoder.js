@@ -9,6 +9,7 @@ var word_length = 8;
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 var oscillator = audioContext.createOscillator();
+oscillator.start();
 
 function send(str) {
   for (var i = 0; i < str.length; i++) {
@@ -35,8 +36,8 @@ function generate_packet(value) {
         generate_bit(bin[i]);
       }, i * bit_pulse_delay);
     }
-    stop_oscillator();
   }, bit_pulse_delay);
+  stop_oscillator();
 }
 
 function generate_bit(bit) {
@@ -47,9 +48,8 @@ function generate_sine(freq) {
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
   oscillator.connect(audioContext.destination);
-  oscillator.start();
 }
 
 function stop_oscillator() {
-  oscillator.stop();
+  oscillator.disconnect();
 }
