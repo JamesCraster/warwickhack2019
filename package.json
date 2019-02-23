@@ -8,11 +8,14 @@
     "react-scripts": "2.1.5",
     "semantic-ui-react": "^0.85.0"
   },
+  "homepage": "http://JamesCraster.github.io/warwickhack2019",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
