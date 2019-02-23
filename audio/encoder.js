@@ -8,6 +8,14 @@ var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 var oscillator = audioContext.createOscillator();
 
+function send(str) {
+  for (var i = 0; i < str.length; i++) {
+    setTimeout(function() {
+      generate_packet(str.charCodeAt(i));
+    },packet_delay*i + bit_pulse_delay*9);
+  }
+}
+
 function generate_packet(value) {
   //Convert to Binary Array
   var bin = [];
