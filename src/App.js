@@ -10,13 +10,13 @@ class App extends Component {
           <Menu.Item header>Talking-2.0</Menu.Item>
         </Menu>
         <Header as="h1">Talking-2.0</Header>
-        <ChatBox sendToEncoder={string_to_ascii}/>
+        <ChatBox /*sendToEncoder={string_to_ascii}*/ />
       </div>
     );
   }
 }
 
-var packet_delay = 1000; //ms
+/*var packet_delay = 1000; //ms
 var bit_pulse_delay = 500; //ms
 
 var freq_high = 2000; //hz
@@ -68,5 +68,5 @@ function generate_sine(freq) {
 function stop_oscillator() {
   oscillator.stop();
 }
-
+*/
 export default App;
