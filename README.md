@@ -1,6 +1,7 @@
 # Talking 2.0
-### WarwickHACK 2019
+### WarwickHACK 2019 - Best Hack
 
+---
 Send data using ultrasonic sound!
 
 The user sends a message, which is encoded in ASCII, over a custom serial protocol using frequency shift keying of ultrasonic sound. The morse code is played out loud, which the decoder can then hear and turn back into ASCII, then into text.
