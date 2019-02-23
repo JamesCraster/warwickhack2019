@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/warwickhack2019/precache-manifest.bcb4cff205f220cda9db2a6c3359375c.js"
+  "/warwickhack2019/precache-manifest.112340864c39aec6436ba68bf26d6db5.js"
 );
 
 workbox.clientsClaim();
