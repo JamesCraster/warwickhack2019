@@ -12,11 +12,13 @@ var oscillator = audioContext.createOscillator();
 oscillator.start();
 
 function send(str) {
+  generate_bit(0);
   for (var i = 0; i < str.length; i++) {
     setTimeout(function() {
       generate_packet(str.charCodeAt(i));
-    },packet_delay*i + bit_pulse_delay*(word_length+1));
+    },packet_delay*i + bit_pulse_delay*(word_length+2));
   }
+  oscillator.disconnect();
 }
 
 function generate_packet(value) {
@@ -28,16 +30,17 @@ function generate_packet(value) {
 
   //Transmit header
   generate_bit(1);
-
   setTimeout(function () {
-    //Transmit payload
-    for (var i = 0; i < word_length; i++) {
-      setTimeout(function () {
-        generate_bit(bin[i]);
-      }, i * bit_pulse_delay);
-    }
-  }, bit_pulse_delay);
-  stop_oscillator();
+    generate_bit(0);
+    setTimeout(function () {
+      //Transmit payload
+      for (var i = 0; i < word_length; i++) {
+        setTimeout(function () {
+          generate_bit(bin[i]);
+        }, i * bit_pulse_delay);
+      }
+    }, bit_pulse_delay);
+  },bit_pulse_delay);
 }
 
 function generate_bit(bit) {
@@ -48,8 +51,4 @@ function generate_sine(freq) {
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
   oscillator.connect(audioContext.destination);
-}
-
-function stop_oscillator() {
-  oscillator.disconnect();
 }
