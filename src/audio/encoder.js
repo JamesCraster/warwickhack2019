@@ -16,17 +16,23 @@ function send(str) {
   var char_index = 0;
   audioContext.resume();
   generate_bit(0);
-  for (var i = 0; i < str.length; i++) {
-    setTimeout(() => {
-      //console.log(str.charCodeAt(char_index));
-      generate_packet(str.charCodeAt(char_index));
-      char_index++;
-    }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * i);
-  }
+  setTimeout(() => {
+    for (var i = 0; i < str.length; i++) {
+      setTimeout(() => {
+        //console.log(str.charCodeAt(char_index));
+        generate_packet(str.charCodeAt(char_index));
+        char_index++;
+      }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * i);
+    }
+  },packet_delay);
+
+  setTimeout(() => {
+    generate_bit(0);
+  }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
 
   setTimeout(() => {
     oscillator.disconnect();
-  }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
+  }, (2*packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
 }
 
 function generate_packet(value) {
