@@ -21,20 +21,27 @@ function send(str) {
       //console.log(str.charCodeAt(char_index));
       generate_packet(str.charCodeAt(char_index));
       char_index++;
-    }, (packet_delay + (word_length * 3 + 2) * bit_pulse_delay) * i);
+    }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * i);
   }
 
   setTimeout(() => {
     oscillator.disconnect();
-  }, (packet_delay + (word_length * 3 + 2) * bit_pulse_delay) * str.length);
+  }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
 }
 
 function generate_packet(value) {
   //Convert to Binary Array
   var bin = [];
+  var sum = 0;
   for (var i = 0; i < word_length; i++) {
     bin[i] = (value >> (word_length - 1 - i)) & 1;
+    sum += bin[i];
   }
+
+  var parity = sum % 2;
+
+  bin.push(parity);
+
   console.log(bin);
   var byte_index = 0;
   bin = bin
@@ -51,7 +58,7 @@ function generate_packet(value) {
     generate_bit(0);
     setTimeout(function() {
       //Transmit payload within nested timeout
-      for (var i = 0; i < word_length * repetitions; i++) {
+      for (var i = 0; i <= word_length * repetitions; i++) {
         setTimeout(function() {
           generate_bit(bin[byte_index++]);
           //console.log(bin[i]);
@@ -63,7 +70,7 @@ function generate_packet(value) {
   //Set intermediate frequency to low_output
   setTimeout(function() {
     generate_bit(0);
-  }, bit_pulse_delay * word_length * repetitions + 2);
+  }, bit_pulse_delay * word_length * repetitions + 3);
 }
 
 function generate_bit(bit) {
