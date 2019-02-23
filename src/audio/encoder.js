@@ -13,6 +13,7 @@ oscillator.start();
 
 function send(str) {
   var char_index = 0;
+  audioContext.resume();
   generate_bit(0);
   for (var i = 0; i < str.length - 1; i++) {
     setTimeout(() => {
