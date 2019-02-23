@@ -14,7 +14,7 @@ var packet_data = [];
 var remaining_bits = 0;
 
 function callback(value) {
-  console.log(value + " = " + String.fromCharCode(value));
+  output.innerText = output.innerText + String.fromCharCode(value);
 }
 
 function decode_packet(data) {
@@ -42,10 +42,7 @@ function decode_packet(data) {
     }
   }
 
-  if (value % 2 != parity) {
-    // console.log("parity check failed! binning packet");
-    callback(95);
-  } else if (value > 126 | value < 32) {
+  if (value > 126 | value < 32) {
     // console.log("not printable ASCII, binning packet");
     callback(95);
   } else {
@@ -79,7 +76,7 @@ function wait_for_low_length() {
   if (average > 140) {
     console.log("steady low tone detected (samples: " + low_sample_buffer.length + ")" );
     start_bit_checker = setInterval(check_for_start_bit, 1);
-    canceler = setTimeout(cancel_high_check, packet_delay * 1.5 );
+    canceler = setTimeout(cancel_high_check, packet_delay * 3 );
   } else {
     // console.log("no low tone detected " + average);
     start_polling();
@@ -134,8 +131,7 @@ function init() {
   canvas = document.getElementById("screen");
   canvasCtx = canvas.getContext("2d");
 
-  high_output = document.getElementById("high");
-  low_output = document.getElementById("low");
+  output = document.getElementById("output");
 
   var handleSuccess = function (stream) {
     mic_stream = audioCtx.createMediaStreamSource(stream);
@@ -146,6 +142,7 @@ function init() {
 
   setInterval(updateFFT,1);
 
+  start_polling();
   draw();
 }
 
@@ -170,11 +167,11 @@ function draw() {
 
   requestAnimationFrame(draw);
 
-  canvasCtx.fillStyle = "rgb(200, 200, 200)";
+  canvasCtx.fillStyle = "#081920";
   canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-  canvasCtx.lineWidth = 2;
-  canvasCtx.strokeStyle = "rgb(0, 0, 0)";
+  canvasCtx.lineWidth = 3;
+  canvasCtx.strokeStyle = "#f45954";
 
   canvasCtx.beginPath();
 
