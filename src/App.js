@@ -11,9 +11,9 @@ class App extends Component {
           <Menu.Item header>
             <img src="logo-white.png" alt="Logo" />
           </Menu.Item>
-          <Menu.Item header>Talking-2.0</Menu.Item>
+          <Menu.Item header>Talking 2.0</Menu.Item>
         </Menu>
-        <Header as="h1">Talking-2.0</Header>
+        <Header as="h1">Talking 2.0</Header>
         <ChatBox sendToEncoder={send}/>
       </div>
     );

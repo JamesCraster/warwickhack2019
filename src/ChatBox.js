@@ -13,7 +13,7 @@ class ChatBox extends Component {
       key: 1,
       inputValue: "",
       messages: [
-        <List.Item key={0}>Enter text and everyone can hear it!</List.Item>,
+        <List.Item key={0}>Enter text below and everyone can hear it!</List.Item>,
       ],
     };
   }
