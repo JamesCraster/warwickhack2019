@@ -4,6 +4,8 @@ var bit_pulse_delay = 500; //ms
 var freq_high = 2000; //hz
 var freq_low = 1000; //hz
 
+var word_length = 8;
+
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 var oscillator = audioContext.createOscillator();
@@ -12,14 +14,14 @@ function send(str) {
   for (var i = 0; i < str.length; i++) {
     setTimeout(function() {
       generate_packet(str.charCodeAt(i));
-    },packet_delay*i + bit_pulse_delay*9);
+    },packet_delay*i + bit_pulse_delay*(word_length+1));
   }
 }
 
 function generate_packet(value) {
   //Convert to Binary Array
   var bin = [];
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < word_length; i++) {
     bin[i] = (value >> i) & 1;
   }
 
@@ -28,7 +30,7 @@ function generate_packet(value) {
 
   setTimeout(function () {
     //Transmit payload
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < word_length; i++) {
       setTimeout(function () {
         generate_bit(bin[i]);
       }, i * bit_pulse_delay);
