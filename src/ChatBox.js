@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import {
   Input,
-  Header,
-  Menu,
   Segment,
   Form,
-  Button,
   List,
 } from "semantic-ui-react";
 

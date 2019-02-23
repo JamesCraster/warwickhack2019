@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Input, Header, Menu, Segment } from "semantic-ui-react";
+import { Header, Menu} from "semantic-ui-react";
 import ChatBox from "./ChatBox";
 import send from "./audio/encoder";
+
 
 class App extends Component {
   render() {
@@ -14,7 +15,7 @@ class App extends Component {
           <Menu.Item header>Talking-2.0</Menu.Item>
         </Menu>
         <Header as="h1">Talking-2.0</Header>
-        <ChatBox sendToEncoder={send} />
+        <ChatBox sendToEncoder={send}/>
       </div>
     );
   }
