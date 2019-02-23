@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", init);
 
 const high_freq_centre_bin = 220;
 const low_freq_centre_bin = 232;
-const bin_averaging_width = 1;
+const bin_averaging_width = 2;
 
 const packet_delay = 1000; //ms
 const bit_pulse_delay = 120; //ms
@@ -14,7 +14,7 @@ var packet_data = [];
 var remaining_bits = 0;
 
 function callback(value) {
-  output.innerText = output.innerText + String.fromCharCode(value);
+  output.innerHTML = output.innerHTML + String.fromCharCode(value);
 }
 
 function decode_packet(data) {
@@ -42,7 +42,7 @@ function decode_packet(data) {
     }
   }
 
-  if (value > 126 | value < 32) {
+  if (value > 126 | value < 31) {
     // console.log("not printable ASCII, binning packet");
     callback(95);
   } else {
