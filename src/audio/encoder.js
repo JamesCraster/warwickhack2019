@@ -12,6 +12,7 @@ var oscillator = audioContext.createOscillator();
 oscillator.start();
 
 function send(str) {
+  audioContext.resume();
   generate_bit(0);
   for (var i = 0; i < str.length; i++) {
     setTimeout(function() {
