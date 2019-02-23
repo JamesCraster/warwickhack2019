@@ -1,8 +1,8 @@
 var packet_delay = 1000; //ms
-var bit_pulse_delay = 200; //ms
+var bit_pulse_delay = 120; //ms
 
-const freq_high = 3000; //hz
-const freq_low = 2000; //hz
+const freq_high = 19000; //hz
+const freq_low = 20000; //hz
 
 var word_length = 8;
 var repetitions = 3;
@@ -24,7 +24,7 @@ function send(str) {
         char_index++;
       }, (packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * i);
     }
-  },packet_delay);
+  }, packet_delay);
 
   setTimeout(() => {
     generate_bit(0);
@@ -32,7 +32,7 @@ function send(str) {
 
   setTimeout(() => {
     oscillator.disconnect();
-  }, (2*packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
+  }, (2 * packet_delay + (word_length * 3 + 3) * bit_pulse_delay) * str.length);
 }
 
 function generate_packet(value) {

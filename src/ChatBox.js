@@ -29,7 +29,13 @@ class ChatBox extends Component {
         <List.Content>{this.state.inputValue}</List.Content>
       </List.Item>,
     );
-    this.props.sendToEncoder(this.state.inputValue);
+    let input = this.state.inputValue;
+    for (let i = 0; i < input.length; i++) {
+      setTimeout(() => {
+        console.log(input[i]);
+        this.props.sendToEncoder(input[i]);
+      }, i * 6000);
+    }
     this.setState({ key: this.state.key + 1 });
     this.setState({ inputValue: "" });
   };
