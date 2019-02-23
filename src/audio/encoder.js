@@ -20,13 +20,13 @@ function send(str) {
       //console.log(str.charCodeAt(char_index));
       generate_packet(str.charCodeAt(char_index));
       char_index++;
-    }, packet_delay * i);
+    }, (packet_delay + (word_length + 2) * bit_pulse_delay) * i);
   }
-  /*
+
   console.log("change");
   for (let x = 0; x < str.length; x++) {
     console.log(packet_delay * x + bit_pulse_delay * (word_length + 2));
-  }*/
+  }
   console.log(
     (packet_delay + (word_length + 2) * bit_pulse_delay) * str.length,
   );
