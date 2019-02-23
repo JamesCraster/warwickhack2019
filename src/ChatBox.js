@@ -44,6 +44,7 @@ class ChatBox extends Component {
     return (
       <div style={{ height: "80%" }}>
         <Segment
+          id="message"
           style={{
             height: "60%",
             overflowY: "scroll",
