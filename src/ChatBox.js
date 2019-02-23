@@ -35,7 +35,7 @@ class ChatBox extends Component {
         <List.Content>{this.state.inputValue}</List.Content>
       </List.Item>,
     );
-    //this.props.sendToEncoder(this.state.inputValue);
+    this.props.sendToEncoder(this.state.inputValue);
     this.setState({ key: this.state.key + 1 });
     this.setState({ inputValue: "" });
   };
