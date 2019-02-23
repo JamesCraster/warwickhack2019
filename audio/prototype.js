@@ -66,7 +66,7 @@ function sample() {
   } else {
     clearInterval(bit_sampler);
     decode_packet(packet_data);
-    start_polling();
+    setTimeout(start_polling, packet_delay * 0.8);
   }
 }
 
