@@ -1,8 +1,8 @@
 var packet_delay = 1000; //ms
 var bit_pulse_delay = 500; //ms
 
-var freq_high = 3000; //hz
-var freq_low = 2000; //hz
+const freq_high = 3000; //hz
+const freq_low = 2000; //hz
 
 var word_length = 8;
 
